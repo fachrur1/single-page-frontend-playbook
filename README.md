@@ -13,8 +13,9 @@ site's own source so an agent (or a new maintainer) can re-verify it in seconds.
   without breaking its rendering pipeline, its two hanging-print galleries, its
   theming, or its deploy.
 - Out of scope: the admin SPA (`admin/`), the database schema, and the migration
-  scripts. Those belong to the backend repository; this repo only documents the
-  contract the front-end consumes.
+  scripts. Those live in
+  [supabase-portfolio-cms](https://github.com/fachrur1/supabase-portfolio-cms); this repo only documents the contract the
+  front-end consumes.
 
 ## What the site is
 
