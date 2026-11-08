@@ -117,16 +117,6 @@ edits, listed in the cookbook.
 |---|---|---|
 | ![Mobile hero](docs/images/23-mobile-hero.png) | ![Mobile works](docs/images/24-mobile-works.png) | ![Mobile gallery](docs/images/25-mobile-gallery.png) |
 
-### Extra entry points
-
-| | |
-|---|---|
-| ![Aru Meet](docs/images/27-meet.png) | ![Suitability SDSS](docs/images/28-suitability.png) |
-
-Two standalone pages are built from the same Vite configuration, documented in
-[EXTRA-ENTRIES.md](docs/EXTRA-ENTRIES.md). The full tour with captions is in
-[docs/SCREENSHOTS.md](docs/SCREENSHOTS.md).
-
 ## Measured findings
 
 Recorded while documenting the code. Each entry names the file that owns the fix; none of
