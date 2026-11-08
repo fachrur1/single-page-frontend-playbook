@@ -7,8 +7,8 @@ the smallest fix.
 
 In short: the semantics are solid, the interactive shell is not. The work modal has
 no dialog behaviour, the closed mobile menu stays in the tab order, the desktop
-theme menu is unreachable by keyboard, and there is no skip link. Contrast holds in
-the forest and light themes and fails in the sand theme.
+theme menu is unreachable by keyboard, and there is no skip link. The accent passes
+AA in every theme except the sand one.
 
 ## 1. Landmarks and heading order
 
@@ -161,7 +161,7 @@ the hero canvas and gradient are composited. The full table is in
 | Pair | Where | Ratio | Verdict |
 |---|---|---|---|
 | Hero typewriter, light: `#006c49` on `#f8fafc` | `index.html:213`, `216`, applied at `1909` | 6.19:1 | passes AA |
-| Hero typewriter, sand: `#d4af37` on `#fdf5e6` | `index.html:236`, `238`, applied at `1909` | 1.94:1 | fails 4.5:1 and fails 3:1 as large text |
+| Hero typewriter, sand: `#d4af37` on `#fdf5e6` | `index.html:236`, `239`, applied at `1909` | 1.94:1 | fails 4.5:1 and fails 3:1 as large text |
 | "View Projects" label, sand: same pair | `index.html:1058` | 1.94:1 | fails |
 | "View Projects" border, light: `#cbd5e1` on `#f8fafc` | `index.html:224`, `216`, `1058` | 1.42:1 | fails the 3:1 non-text rule; the border is the button's only boundary |
 | Footer line, light: `#475569` at 60% on `#f8fafc` | `index.html:223`, `216`, `1266` | 2.82:1 | fails 4.5:1 |

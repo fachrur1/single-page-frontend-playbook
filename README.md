@@ -74,6 +74,8 @@ flowchart LR
 
 ![Gallery drag](docs/media/gallery-drag.gif)
 
+Higher quality: [gallery-drag.mp4](docs/media/gallery-drag.mp4), 2.3 seconds, 172 KB.
+
 A drag swings the whole clothesline. Each print keeps its own phase of ambient breeze,
 and the active print is exactly still, because the breeze amplitude is gated by how
 active the print is. The clip is a real recording of the component.
@@ -86,6 +88,8 @@ active the print is. The clip is a real recording of the component.
 | ![neon tokyo](docs/images/19-theme-neon-tokyo.png) | ![abyss](docs/images/20-theme-abyss.png) | ![sunset](docs/images/21-theme-sunset.png) | ![monochrome](docs/images/22-theme-monochrome.png) |
 
 ![Theme cycle](docs/media/theme-cycle.gif)
+
+Higher quality: [theme-cycle.mp4](docs/media/theme-cycle.mp4), 6.1 seconds, 596 KB.
 
 Every theme is a variable block, so no component knows about colours. Adding a ninth
 theme is four edits, documented in the cookbook.
@@ -128,6 +132,8 @@ Full tour with captions: [docs/SCREENSHOTS.md](docs/SCREENSHOTS.md).
 | [docs/PITFALLS.md](docs/PITFALLS.md) | Numbered failures with the symptom each one prevents |
 | [references/](references/) | DOM hooks, CSS tokens per theme, QA handles for browser tests |
 | [tools/capture.mjs](tools/capture.mjs) | Reproduces every screenshot and clip, with a redaction gate |
+| [LISTING.md](LISTING.md) | Marketplace copy: title, long description, pricing tiers, FAQ, and the claims to avoid |
+| [CHANGELOG.md](CHANGELOG.md) | What changed in each release |
 
 ## How to use it
 
