@@ -146,7 +146,7 @@ heading instead of keeping the static default, unlike every other section.
 | Purpose | The video clothesline: hanging prints, one pegged at a time. |
 | DOM contract | `section.mf-section#motion[data-mf-state]` (`index.html:1137`); `[data-mf-stage]`, `.mf-track`, `[data-mf-skeleton]`, `[data-mf-ticks]`, `[data-mf-counter]`, `[data-mf-live]`, `[data-mf-prev]`, `[data-mf-next]`, `#cms-motion-heading`, `#cms-motion-description`. |
 | Source | Its own bundle, not `textData`: `motion_media` rows or `api/motion.json`, plus `motion_heading` and `motion_description` from `site_settings` (`motion-gallery.ts:1552-1559`). |
-| States | empty: `data-mf-state="empty"` and `display:none` (`motion-gallery.css:33`), the only truly hidden component. Populated: `mount()` flips the state to `ready` before measuring (`motion-gallery.ts:453-455`). Hover: paper tilts and the media brightens (`motion-gallery.css` print rules). Active: the print under the peg, zero wind, full width. Reduced: springs instant, breeze off, entrance collapsed (`motion-gallery.ts:470-473`, `motion-gallery.css:681-688`). |
+| States | empty: `data-mf-state="empty"` and `display:none` (`motion-gallery.css:33`), one of the two sections that hide themselves. Populated: `mount()` flips the state to `ready` before measuring (`motion-gallery.ts:453-455`). Hover: paper shadow deepens and the poster scales to 1.02 (`motion-gallery.css:237-244`, `279`). Active: the print under the peg, zero wind, full width (`motion-gallery.ts:850-854`, `949`). Reduced: springs instant, breeze off, entrance collapsed (`motion-gallery.ts:470-473`, `motion-gallery.css:681-688`). |
 | Render | `index.html:1137-1171`; class `motion-gallery.ts:421-440` (constructor), `444-547` (mount), `582-750` (print). |
 
 Only here: the copy is written by `applyCopy()`, which looks for
@@ -177,7 +177,7 @@ separate class and there must not be one.
 | Purpose | Roles held outside coursework. |
 | DOM contract | `section#organizations` and `#cms-orgs-container` on one line (`index.html:1212`); static heading. |
 | Source | `textData.organizations[]` with `name`, `role` (`shape.js:427-430`). |
-| States | populated: two glass cards (`index.html:2173-2178`). Empty array: container cleared, heading stays. Hover: `.card-hover` lift. Active: none. Reduced: none. |
+| States | populated: one glass card per row (`index.html:2173-2178`). Empty array: container cleared, heading stays. Hover: `.card-hover` lift. Active: none. Reduced: none. |
 | Render | `index.html:1212`; paint `2171-2179`. |
 
 Only here: the count of this array is one of the three stat numbers, written in
@@ -229,8 +229,8 @@ URL turns the link into a reload.
 | States | populated: always. Empty, hover, active, reduced: none. |
 | Render | `index.html:1262-1268`. |
 
-Only here: it is the only component the CMS cannot change, including the year,
-which is typed as 2026 (`index.html:1267`) rather than computed.
+Only here: it is the only section the CMS cannot change, including the year, which
+is typed as 2026 (`index.html:1267`) rather than computed.
 
 ## Work modal
 
@@ -239,7 +239,7 @@ which is typed as 2026 (`index.html:1267`) rather than computed.
 | Purpose | The long-form detail view for one work: media header, tags, metadata grid, themed blocks, prose. |
 | DOM contract | Created on demand as `#modal-work-dyn-{i}` on `document.body` (`index.html:2093`, `2116-2149`). Openers are the slide buttons calling `openWorkModal(idx)` (`index.html:2037`). Shell classes: `.modal-overlay`, `.modal-content`; globals `openModal` / `closeModal` (`index.html:2633-2668`). |
 | Source | One `textData.works[i]`: `category`, `title`, `tags[]`, `image_id`, `gallery_ids[]`, `description` parsed by `renderRichDescription` (`index.html:2114`). |
-| States | populated: built once, then cached and reopened by id (`index.html:2094`, `2150`). Empty: a work with no description renders an empty body; a work with no image renders no header. Hover: media block hover only. Active: `open` adds `flex`, fades to `opacity-100` and scales content to 100 (`index.html:2636-2646`). Reduced: none, the 300ms fade and scale run regardless. |
+| States | populated: built once, then cached and reopened by id (`index.html:2094`, `2150`). Empty: a work with no description renders an empty body; a work with no image renders no header. Hover: the fullscreen button and the carousel arrows only (`index.html:1875-1886`). Active: `open` adds `flex`, fades to `opacity-100` and scales content to 100 (`index.html:2636-2646`). Reduced: none, the 300ms fade and scale run regardless. |
 | Render | `index.html:2090-2153`; open and close `2633-2668`; body parser `1675-1762`; docs carousel `1831-1889`; lightbox `2669-2815`. |
 
 Only here: the modal is cached, so a content edit that arrives after the first
@@ -297,8 +297,8 @@ the surrounding static heading stays visible.
 | `cms-photography-container` | `2157-2169` | `textData.photography[]` | paints nothing |
 | `cms-motion-heading` | `motion-gallery.ts:1517-1522` | `motion_heading` | static markup text stays |
 | `cms-motion-description` | `motion-gallery.ts:1517-1522` | `motion_description` | static markup text stays |
-| `cms-render3d-heading` | `motion-gallery.ts:1518` | `render3d_heading` | static markup text stays |
-| `cms-render3d-description` | `motion-gallery.ts:1519` | `render3d_description` | static markup text stays |
+| `cms-render3d-heading` | `motion-gallery.ts:1517-1522` | `render3d_heading` | static markup text stays |
+| `cms-render3d-description` | `motion-gallery.ts:1517-1522` | `render3d_description` | static markup text stays |
 | `cms-orgs-container` | `2171-2179` | `textData.organizations[]` | paints nothing |
 | `cms-contact-heading` | `2193` | `contact.heading` | blanked |
 | `cms-contact-body` | `2194-2196` | `contact.body` via `md()` | paints nothing |

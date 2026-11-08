@@ -135,6 +135,32 @@ Full tour with captions: [docs/SCREENSHOTS.md](docs/SCREENSHOTS.md).
 | [LISTING.md](LISTING.md) | Marketplace copy: title, long description, pricing tiers, FAQ, and the claims to avoid |
 | [CHANGELOG.md](CHANGELOG.md) | What changed in each release |
 
+## What the audit already found
+
+These are not hypothetical. Each one was measured while writing the docs, and each one
+has a named fix in the file it came from.
+
+- **29 of the 47 colour aliases in the Tailwind config resolve to an undefined variable.**
+  Nav links and the hero button hover to `primary-fixed-dim`, which is one of the empty
+  ones, so those hovers never change colour (`docs/DESIGN-SYSTEM.md`).
+- **One of the eight themes fails contrast badly.** The sand accent `#d4af37` on its cream
+  surface measures 1.94:1. The other seven pass for body text; four fail for filled
+  buttons (`docs/DESIGN-SYSTEM.md`, `docs/ACCESSIBILITY.md`).
+- **The work modal is not a dialog.** No `role`, no `aria-modal`, no focus move, no focus
+  trap, no Escape handler, no focus restore. The image lightbox already implements the
+  whole pattern and is the model to copy (`docs/ACCESSIBILITY.md`).
+- **The closed mobile menu is still in the tab order.** It is translated off screen rather
+  than hidden, so its links and eight theme buttons stay reachable by keyboard
+  (`docs/ACCESSIBILITY.md`).
+- **The icon font is 4.0 MB, the page is 195 KB before gzip, and first paint waits on a
+  2.9 second timer chain.** All three numbers are measured, not estimated
+  (`docs/PERFORMANCE.md`).
+- **The deploy folder carries 36 MB of unreferenced images and 11 MB of models.** Nothing
+  on the page points at them (`docs/PERFORMANCE.md`).
+
+A buyer who reads these before quoting knows exactly what the work is. That is the point
+of the repository.
+
 ## How to use it
 
 If you are an agent, load in this order and stop as soon as the task is covered:

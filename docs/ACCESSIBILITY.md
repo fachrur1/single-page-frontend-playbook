@@ -41,6 +41,9 @@ indicator disappears on the controls that scroll a work gallery. Fix: drop
 
 ## 3. Focus order, and what is reachable
 
+Focus order follows source order: nav links, CV, theme trigger, then main, footer and
+the back to top button.
+
 **Loader.** Covers the viewport at `z-index: 99999999` (`index.html:421`) and
 dismisses on `mousedown` (`1530-1534`) or the quote timer (`1510-1512`). It is a
 `div` with no key handler, so a keyboard user waits it out. Fix: a `keydown`
@@ -81,11 +84,10 @@ buttons (`649-663`); roving tabindex keeps one print plus its two buttons in the
 order (`1119-1125`). Drag is not the only path: the arrow buttons call the same
 `goTo()` that a drag release calls (`1012-1049`).
 
-Two smaller problems. The ticks are all tabbable because `syncControls` roves the
+A smaller problem. The ticks are all tabbable because `syncControls` roves the
 prints and their buttons but not the ticks (`motion-gallery.ts:1119-1125`), so eight
 prints mean eight tick stops before the stage; that is direct access, so the trade is
-defensible, but `tabIndex = -1` would tighten it. Because `keydown` is bound to the
-section (`1137`), arrows move the carousel whenever focus is inside it.
+defensible, but `tabIndex = -1` would tighten it.
 
 ## 5. ARIA that is actually present
 
@@ -138,7 +140,7 @@ correctly in the galleries and unevenly elsewhere.
 | Surface | `alt` | Line |
 |---|---|---|
 | About portrait | a fixed English caption, hardcoded in markup | `index.html:1070` |
-| Work cover, modal header, photo tile | `work.title`, `work.title`, `photo.title`; blurred twins `aria-hidden` | `2010`, `2130-2131`, `2162` |
+| Work cover, modal header, photo tile | `work.title` twice, then `photo.title`; blurred twins `aria-hidden` | `2010`, `2130-2131`, `2162` |
 | Modal carousel slides | `""` on both layers | `1856`, `1865` |
 | Gallery poster | `""`, with the print carrying `aria-label="n of total: title"` | `motion-gallery.ts:605`, `589` |
 | Lightbox image | `"Documentation image n of total"` | `2730` |
@@ -178,15 +180,13 @@ typewriter class to `text-on-surface` (`index.html:1909`), which is 12.76:1 in t
 sand theme and 17.06:1 in the light theme. For the outlined button, swap
 `border-outline-variant` for `border-outline` (`index.html:1058`); that token is
 4.55:1 in the light theme and 4.27:1 in the sand theme. The footer line is one
-class: drop the `/60` at `index.html:1266`. Also worth a check: `text-white` is
-hardcoded on the contact panel (`1234`), and `text-inverse-surface` carries the card
-titles (`1946`, `1958`, `2175`), which only works while that token stays far from
-`surface` in every theme.
+class: drop the `/60` at `index.html:1266`. One related trap: `text-white` is
+hardcoded on the contact panel (`1234`), where nothing inherits it today but any new
+child would.
 
 ## 9. `prefers-reduced-motion`
 
-The gallery honours it properly; the rest of the page does not. That is the whole
-finding.
+The gallery honours it properly; the rest of the page does not.
 
 | Surface | Honours it | Where |
 |---|---|---|
