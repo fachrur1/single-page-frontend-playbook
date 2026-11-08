@@ -1,0 +1,17 @@
+# Capture scratch
+.capture-frames/
+docs/frames/
+
+# Local redaction list used by tools/capture.mjs when capturing a build that
+# still carries real identity strings. Never commit it.
+redactions.local.json
+
+# Tooling
+node_modules/
+package-lock.json
+
+# Editor and OS noise
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

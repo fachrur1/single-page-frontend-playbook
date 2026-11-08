@@ -1,57 +1,72 @@
 # Image manifest
 
-The PNGs listed here are committed next to this file. They were captured from a
-local demo build whose content is fictional (invented projects, a placeholder
-portrait, `example.com` addresses), so nothing in them belongs to a real person.
-If you re-capture, keep that property: the capture harness in the backend
-repository refuses to write a file while a known identity string survives
-redaction.
+Every asset in `docs/images` and `docs/media`, with the condition that makes it correct.
+`tools/capture.mjs` writes these files; this table is the contract it is written against.
 
-Viewports: **desktop 1440x900**, **mobile 390x844** (mobile emulation:
-`isMobile: true, hasTouch: true`). Device pixel ratio 1, full page off, viewport
-capture on.
+Viewports: desktop 1440x900, mobile 390x844 (`isMobile`, `hasTouch`), device pixel ratio 1,
+viewport capture (not full page).
 
-| # | File | Viewport | Target section | Must show | Ready when |
-|---|---|---|---|---|---|
-| 01 | `01-hero.png` | desktop 1440x900 | `#home` | two-line hero title, subtitle line, typewriter description with caret, filled primary button plus outlined secondary button, particle canvas behind | `#cms-hero-title` contains text and the caret span exists |
-| 02 | `02-about-education.png` | desktop 1440x900 | `#about` + `#education` | 4:5 portrait frame on the left, heading with short rule and markdown body on the right, two education glass cards below with caps period line | `#cms-about-body` has children and `#cms-education-container` has 2 children |
-| 03 | `03-skills.png` | desktop 1440x900 | `#skills` | three skill cards in one row, icon plus group title, wrapped chip rows | `#cms-skills-container` has at least 3 children |
-| 04 | `04-works-carousel.png` | desktop 1440x900 | `#projects` | one full slide with category overline, title, tag string, summary, `View Project` button; round arrows on both edges; the dot row and the `1 / n` counter sit just below the carousel, which can fall outside a short viewport | `#cms-works-container` has children and `#works-counter` reads `1 / n` |
-| 05 | `05-work-modal.png` | desktop 1440x900 | modal on `index.html` | open modal with media header, category, title, tag pills, bordered metadata grid, at least one tinted block card with icon and left rail | `.modal-overlay .modal-content` is visible and contains a metadata field label |
-| 06 | `06-photography.png` | desktop 1440x900 | `#photography` | CMS heading and description, 3-column 16:9 tiles with letterboxed images and dark matte | `#cms-photography-container` has children |
-| 07 | `07-motion-gallery.png` | desktop 1440x900 | `#motion` | clothesline curve with two pins, several hanging prints at different angles, badges, captions, `01 / n` counter, arrow buttons, tick row | `#motion[data-mf-state="ready"]` and all `.mf-print` have opacity > 0.98 |
-| 08 | `08-render3d-gallery.png` | desktop 1440x900 | `#render-3d` | same clothesline design with stills only, no play control on any print | `#render-3d[data-mf-state="ready"]` and `querySelectorAll('#render-3d .mf-play').length === 0` |
-| 09 | `09-organizations-contact.png` | desktop 1440x900 | `#organizations` through `#contact` | two organization cards, three stat panels with settled numbers, contact panel with heading, markdown body and three link rows | `#cms-orgs-container` has children and `.stat-counter` values are non-zero |
-| 10 | `10-mobile-hero.png` | mobile 390x844 | `#home` | slim mobile header with logo mark and menu button, stacked hero title, full-width stacked buttons, no horizontal scrollbar | `#cms-hero-title` contains text; `document.documentElement.scrollWidth <= window.innerWidth + 1` |
+## Stills
+
+| # | File | Section | Must show | Ready when |
+|---|---|---|---|---|
+| 01 | `01-hero.png` | `#home` | two-line title, subtitle, completed intro line with caret, filled and outlined actions, particle canvas | `#cms-hero-title` has text and the intro text has stopped growing |
+| 02 | `02-about-education.png` | `#about`, `#education` | 4:5 portrait frame, heading with rule, markdown body, two education cards | `#cms-about-body` has children and `#cms-education-container` has 2 children |
+| 03 | `03-skills.png` | `#skills` | skill cards in a row, icon plus group title, wrapped chips | `#cms-skills-container` has at least 3 children |
+| 04 | `04-works-carousel.png` | `#projects` | one slide with overline, title, tags, summary, call to action, arrows on both edges | `#cms-works-container` has children |
+| 05 | `05-work-modal.png` | modal | media header, category, title, tag pills, metadata grid | `.modal-overlay .modal-content` visible |
+| 05b | `05b-work-modal-body.png` | modal scrolled | metadata grid plus themed cards and the markdown table | `.modal-content` scrolled to about 460px |
+| 05c | `05c-work-modal-learnings.png` | modal scrolled | outcome card and the key learnings list | `.modal-content` scrolled to about 980px |
+| 06 | `06-photography.png` | `#photography` | CMS heading and description, tiles with letterboxed images | `#cms-photography-container` has children |
+| 07 | `07-motion-gallery.png` | `#motion` | clothesline with pins, prints at different angles, badges, captions, counter, arrows | `#motion[data-mf-state="ready"]` and prints at full opacity |
+| 08 | `08-render3d-gallery.png` | `#render-3d` | same design, stills only, no play control | `#render-3d[data-mf-state="ready"]` and `#render-3d .mf-play` count is 0 |
+| 09 | `09-organizations-stats.png` | `#organizations`, `#stats` | two organization cards, three stat panels with settled numbers | `#cms-orgs-container` has children and counters are non-zero |
+| 10 | `10-contact.png` | `#contact` | glass panel, heading, markdown body, contact rows | `#cms-contact-heading` has text |
+| 11 | `11-gallery-advanced.png` | `#render-3d` after two next clicks | line swung into an S, counter advanced, previous print pushed aside | `data-mf-index` changed from 0 |
+| 15 | `15-theme-forest.png` | hero, forest | default palette, complete intro line | `data-theme="forest"` |
+| 16 | `16-theme-light.png` | hero, light | light palette, complete intro line | `data-theme="light"` |
+| 17 | `17-theme-aleksandria.png` | hero, aleksandria | warm brown palette | `data-theme="aleksandria"` |
+| 18 | `18-theme-glacier.png` | hero, glacier | cold blue palette | `data-theme="glacier"` |
+| 19 | `19-theme-neon-tokyo.png` | hero, neon-tokyo | magenta palette | `data-theme="neon-tokyo"` |
+| 20 | `20-theme-abyss.png` | hero, abyss | teal palette | `data-theme="abyss"` |
+| 21 | `21-theme-sunset.png` | hero, sunset | crimson palette | `data-theme="sunset"` |
+| 22 | `22-theme-monochrome.png` | hero, monochrome | grey palette | `data-theme="monochrome"` |
+| 23 | `23-mobile-hero.png` | mobile `#home` | slim header with menu button, stacked title, full-width actions, no horizontal scroll | `document.documentElement.scrollWidth <= innerWidth + 1` |
+| 24 | `24-mobile-works.png` | mobile `#projects` | single-column carousel, controls reachable | `#cms-works-container` has children |
+| 25 | `25-mobile-gallery.png` | mobile `#motion` | clothesline laid out from measured widths, no overflow | `#motion[data-mf-state="ready"]` |
+| 26 | `26-mobile-contact.png` | mobile `#contact` | stacked contact rows | `#cms-contact-heading` has text |
+| 27 | `27-meet.png` | `/meet/` | lobby screen of the standalone meeting page | page loaded, no console error |
+| 28 | `28-suitability.png` | `/suitability-land-for-RE/` | loaded map, candidate list populated, no loading bar | candidate list non-empty and the loader is gone |
+
+## Clips
+
+| File | Length | Content | Ready when |
+|---|---|---|---|
+| `media/gallery-drag.mp4`, `.gif` | about 2.3s | pointer drag swings the render gallery, then one arrow click | screenshots of `#render-3d` are already correct |
+| `media/theme-cycle.mp4`, `.gif` | about 6s | all eight themes on the hero, intro line kept complete | `window.setTheme` exists |
+
+Frames are captured through the CDP screencast API, then encoded with ffmpeg (H.264 for
+mp4, a 96 colour palette for gif).
 
 ## Capture procedure
 
-1. Build and serve: `npm run build` then `npx serve dist -l 5055`. Never capture
-   from `file://`; module scripts and `fetch` fail there.
-2. Open the page, wait for the loader to disappear
-   (`getComputedStyle(#loader).display === 'none'`). It self-dismisses after about
-   2.3 seconds, or click it once.
-3. For content sections, wait for the container to have children, not for a fixed
-   timeout. Counts come from the CMS.
-4. Scroll the target section into view with its heading clear of the fixed header
-   (add 80 to 100px of offset). Do not capture a section whose heading is hidden
-   behind the bar.
-5. For `#motion` and `#render-3d`, wait for `data-mf-state="ready"` **and** for
-   the entrance to finish. Prints fade in staggered by 72ms with a 1.6s hold, so
-   give it about 2.5 seconds after the section is on screen.
-6. For `05-work-modal.png`, open the first work with
-   `window.openWorkModal(0)` and wait for `.modal-overlay .modal-content`.
-7. Keep the default theme. Do not inject a theme name, and do not clear
-   `localStorage` between captures.
-8. Crop nothing. A capture that hides the surrounding spacing is useless for
-   spotting layout regressions.
+1. Build the site and serve it over HTTP. Never capture from `file://`: module scripts and
+   `fetch` fail there.
+2. Run `tools/capture.mjs` from a directory that has puppeteer installed, pointed at the
+   served build, with a redaction file if the page chrome still carries real identity
+   strings.
+3. Wait on conditions, never on a fixed timeout: content containers have children,
+   galleries report `data-mf-state="ready"`, the hero intro stops growing.
+4. Scroll each section so its top edge clears the fixed header.
+5. Hide the custom cursor overlays before any capture.
+6. Crop nothing. A capture that hides the surrounding spacing is useless for spotting
+   layout regressions.
 
 ## Notes for reviewers
 
-- Personal content is expected in the pixels (the site is a personal portfolio).
-  The documentation never repeats it; the images are the only place it appears.
-- If a capture shows an empty grid, the content fetch failed. Check the console
-  for `CMS load error` before blaming the renderer.
-- If `07` or `08` shows an empty clothesline, the fallback JSON is empty and the
-  section correctly hid itself (`data-mf-state="empty"`). That is the intended
-  empty state, not a layout bug.
+- The content in these images is fictional by design. If you re-capture against a real
+  deployment, the redaction gate is what keeps identity strings out of the files.
+- An empty grid means the content fetch failed. Check the console before blaming the
+  renderer.
+- An empty clothesline is the intended empty state (`data-mf-state="empty"`), not a layout
+  bug: a section with no published rows hides itself.

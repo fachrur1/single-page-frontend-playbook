@@ -23,6 +23,27 @@ it produces a bug that is hard to see on a fast machine.
 Do not move work between layers. The renderer must not learn about database
 columns, and `shape.js` must not learn about CSS.
 
+### Document map
+
+| If the task is about | Open |
+|---|---|
+| the visual system: colours, type, spacing, elevation | `docs/DESIGN-SYSTEM.md` |
+| one section: its DOM contract, source field, states | `docs/COMPONENTS.md` |
+| the CMS to DOM pipeline, description grammar, sanitiser | `docs/RENDERING.md` |
+| the hanging-print gallery, drag, breeze, rotation | `docs/GALLERIES.md` |
+| tokens, theme blocks, the Tailwind CDN constraint | `docs/THEMING.md` |
+| focus order, ARIA, contrast, reduced motion | `docs/ACCESSIBILITY.md` |
+| bundle sizes, animation budget, fonts | `docs/PERFORMANCE.md` |
+| head tags, canonical URLs, domain changes | `docs/SEO-AND-META.md` |
+| a concrete edit, step by step | `docs/COOKBOOK.md` |
+| the two extra standalone pages | `docs/EXTRA-ENTRIES.md` |
+| build, entry points, Cloudflare Pages | `docs/BUILD-AND-DEPLOY.md` |
+| what to run before saying "done" | `docs/TESTING.md` |
+| a symptom you cannot explain | `docs/PITFALLS.md` |
+
+`LISTING.md` is marketplace copy, not engineering notes. `tools/capture.mjs`
+regenerates every screenshot and clip.
+
 ## 2. Invariants (break these and the page silently degrades)
 
 1. **`index.html` holds the page; there is no templating step.** Every section
