@@ -1,11 +1,11 @@
 # Cookbook
 
 Twelve changes the site actually gets asked for: the goal, the files and line
-ranges, the order, one command that proves it worked, and what breaks if you skip
-a step. Line numbers are a snapshot; grep the identifier printed next to each
-range if it drifts. Risk here means silence: **low** fails in front of you,
-**medium** fails quietly or on one viewport, **high** can ship a broken write path
-with a clean console.
+ranges, the order, one command that proves it worked, and what breaks when a
+step is skipped. Line numbers are a snapshot; grep the identifier printed next
+to each range if it drifts. Risk here means silence: **low** fails in plain
+sight, **medium** fails quietly or on one viewport, **high** can ship a broken
+write path with a clean console.
 
 ---
 
@@ -31,8 +31,8 @@ with a clean console.
 npm run build && node tests/public-smoke.mjs
 ```
 
-**Skip it and** the card is visible in your admin and invisible to the page. A
-draft row reads as "the renderer is broken" until you check the status column.
+**Skip it and** the card is visible in the admin and invisible to the page. A
+draft row reads as "the renderer is broken" until the status column is checked.
 
 ---
 
@@ -58,7 +58,7 @@ grep -c 'cms-awards-container' index.html   # 2: markup plus paint
 npm run build && node tests/public-smoke.mjs
 ```
 
-**Skip it and** you get a heading over an empty grid with no console error: the
+**Skip it and** a heading appears over an empty grid with no console error: the
 guard is `if (container && data)`, so a typo silently no-ops. Move a section
 without `scroll-margin-top` and the target hides under the 80px header; only
 `.mf-section` has it today (`src/gallery/motion-gallery.css:38`).
@@ -74,7 +74,7 @@ without `scroll-margin-top` and the target hides under the 80px header; only
 **Steps**
 
 1. Add the lowercase key to `META_KEYS`. The parser takes 2 to 25 characters of letters, spaces, `&`, `/`, `-` before the colon (`1625-1628`).
-2. Add it to `META_ORDER` where you want it; missing keys sort last (`1714`).
+2. Add it to `META_ORDER` at the intended position; missing keys sort last (`1714`).
 3. Add the display spelling (`Partners`) to `LEGACY_META_KEYS`.
 4. Only for a database column: add the pair to `metaPairs` (`shape.js:198-205` projects, `225-230` experiences). Text that already carries the line is never duplicated (`shape.js:178-188`).
 
@@ -103,7 +103,7 @@ field can also reflow the grid, since columns are three or two by count (`1719`)
 1. Decide the live layer. `npm run build` inlines `VITE_*`; with Supabase set, the `profiles` row wins and JSON edits do nothing.
 2. Live: edit `hero_line1`, `hero_line2`, `professional_headline`, `short_intro` (`shape.js:433-438`).
 3. Static: edit `hero` in `content/data.json`, never `public/api/data.json`, which is regenerated from it (`scripts/build-cms.ts:20-25`).
-4. Match the markup too if you want no flash of old copy (`index.html:1051-1052`). The title is replaced via `innerHTML` (`1904`), the description escaped then retyped (`1911-1925`).
+4. Match the markup too to avoid a flash of old copy (`index.html:1051-1052`). The title is replaced via `innerHTML` (`1904`), the description escaped then retyped (`1911-1925`).
 
 **Verify.**
 
@@ -112,7 +112,7 @@ node -e "const d=require('./public/api/data.json');console.log(d.hero.title_line
 npm run dev   # hard reload, typewriter must finish
 ```
 
-**Skip it and** your markup edit vanishes when data arrives. The paint block
+**Skip it and** the markup edit vanishes when data arrives. The paint block
 rewrites the `h1` whenever `textData.hero` exists, which is always, in both live
 and fallback mode.
 
@@ -130,7 +130,7 @@ and fallback mode.
 2. Add `ember: ['#..', '#..', '#..']` to `FELTS`, light to deep. It drives `--tt-felt-*`, the gallery plate.
 3. Add a menu row with `data-set-theme="ember"` to the desktop dropdown.
 4. Add a swatch with the same attribute to the mobile menu. The click handler is delegated over `.theme-btn` (`2335-2346`), so nothing else changes.
-5. Keep the block in the style you are editing: five themes in `#theme-vars` (`181-305`), three in the second block (`541-605`). Either home works; splitting one theme across both does not.
+5. Keep the block in the style block being edited: five themes in `#theme-vars` (`181-305`), three in the second block (`541-605`). Either home works; splitting one theme across both does not.
 
 **Verify.**
 
@@ -173,8 +173,8 @@ The rotation group injects 9:16 at 0, 90, 180 and 270 and reads back layout
 ratio, transform and fill (`tests/render3d-gallery.mjs:146-188`).
 
 **Skip it and** the bug looks like CSS. `rotation: 90` without `aspect_ratio`
-defaults the ratio to 16:9 (`701`), so the box becomes 9:16 and you get a narrow
-portrait print holding a sideways landscape clip.
+defaults the ratio to 16:9 (`701`), so the box becomes 9:16 and the output is
+a narrow portrait print holding a sideways landscape clip.
 
 ---
 
@@ -188,7 +188,7 @@ portrait print holding a sideways landscape clip.
 
 1. Prefer the CSS custom properties. They are read through `cssNum()`, so the class follows them with no TypeScript change.
 2. To grow prints, raise `maxInnerW` (`0.46` of stage) before the vertical budget; height binds first.
-3. If you raise the budget, raise the `step` clamp too. `step` maps drag pixels to index (`1245`), so prints that grow while it stays put double the drag speed.
+3. Raising the budget requires raising the `step` clamp too. `step` maps drag pixels to index (`1245`), so prints that grow while it stays put double the drag speed.
 4. Do not pin a pixel width on `.mf-print`: the 300px is pre-mount and overwritten inline (`191-197`).
 
 **Verify.**
@@ -347,6 +347,6 @@ npm run build && node tests/public-smoke.mjs
 The gate asserts a `[download]` anchor points at a PDF, so also read the
 rendered `href` in the browser.
 
-**Skip it and** you ship a split brain: one button on the new file and two on the
-old, or all three correct in source and all three overridden at runtime. The
-override runs after first paint, so View Source looks fine.
+**Skip it and** the result is a split brain: one button on the new file and
+two on the old, or all three correct in source and all three overridden at
+runtime. The override runs after first paint, so View Source looks fine.

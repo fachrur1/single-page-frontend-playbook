@@ -46,8 +46,8 @@ overlay, and the smooth scroll handler calls `scrollIntoView` with no offset
 
 **Do:** give every anchor target `scroll-margin-top` at least as large as the
 header. Only `.mf-section` has it today (`motion-gallery.css:38`), which is why
-the galleries behave and the other sections do not. If you touch the header
-height, update that value and add the same rule to `section[id]`.
+the galleries behave and the other sections do not. A header height change means
+updating that value and adding the same rule to `section[id]`.
 
 ## 4. An `IntersectionObserver` alone is not enough for an entrance
 
@@ -88,12 +88,12 @@ on each side and a 1px border.
 
 **Do:** convert media width to print width with `CHROME = PAD * 2 + 2`
 (`motion-gallery.ts:95-97`, `850-854`). Keep `PAD` in sync with `--mf-pad`
-(`motion-gallery.css:20`); a mismatch is invisible until you measure.
+(`motion-gallery.css:20`); a mismatch is invisible until measured.
 
 ## 7. Content assertions rot
 
 **Symptom:** a browser gate passes today and fails next month with no code
-change, because the owner edited content.
+change, because the content was edited.
 
 **Why:** the test hardcodes a project title, a total, or a name that lives in the
 database.
@@ -146,7 +146,7 @@ compiles and runs but changes nothing is the hardest kind of bug to notice.
 
 ## 11. `content/data.json` silently overrides the modular content
 
-**Symptom:** you edit `content/core/*.json` and nothing changes in the build.
+**Symptom:** editing `content/core/*.json` changes nothing in the build.
 
 **Why:** if `content/data.json` exists, `build-cms.ts` copies it verbatim and
 skips the modular path entirely (`scripts/build-cms.ts:20-26`).
@@ -167,7 +167,7 @@ lines duplicates them.
 **Do:** rely on the three guards: skip merging when the description is
 self-describing (`shape.js:126-136`), never add a key that exists anywhere in the
 text (`ensureMetaBlock`, `shape.js:178-188`), and de-duplicate again in the
-renderer (`index.html:1704-1710`). If you add a meta key, add it to
+renderer (`index.html:1704-1710`). A new meta key must be added to
 `LEGACY_META_KEYS` (`shape.js:28-30`), `META_KEYS` (`index.html:1622`) and
 `META_ORDER` (`index.html:1713`).
 

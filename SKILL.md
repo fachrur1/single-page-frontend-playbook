@@ -1,18 +1,18 @@
 ---
-name: portfolio-frontend
-description: Use when changing the portfolio public page or gallery.
+name: single-page-frontend
+description: Use when changing a CMS-driven single-page front end.
 ---
 
-# portfolio-frontend
+# Single-page CMS front end
 
-Playbook for the public single-page portfolio: `index.html` (markup + tokens +
+Playbook for the public single-page site: `index.html` (markup + tokens +
 inline renderer), `src/cms/*` (data), `src/gallery/*` (hanging-print carousel),
 Vite build, Cloudflare Pages. Follow the rules; each one exists because breaking
 it produces a bug that is hard to see on a fast machine.
 
-## 1. Know which layer you are in
+## 1. Which layer the change belongs to
 
-| Layer | Files | You are here if... |
+| Layer | Files | The change belongs here if... |
 |---|---|---|
 | Content contract | `src/cms/public-content.ts`, `src/cms/shape.js` | the data is wrong, missing, or shaped differently than the DOM expects |
 | Renderer | `index.html:1542-2289` (inline script) | a section is empty, a card is malformed, typography is off |
@@ -39,7 +39,7 @@ columns, and `shape.js` must not learn about CSS.
 | the two extra standalone pages | `docs/EXTRA-ENTRIES.md` |
 | build, entry points, Cloudflare Pages | `docs/BUILD-AND-DEPLOY.md` |
 | what to run before saying "done" | `docs/TESTING.md` |
-| a symptom you cannot explain | `docs/PITFALLS.md` |
+| a symptom that has no explanation yet | `docs/PITFALLS.md` |
 
 `LISTING.md` is marketplace copy, not engineering notes. `tools/capture.mjs`
 regenerates every screenshot and clip.
@@ -59,7 +59,7 @@ regenerates every screenshot and clip.
 3. **All CMS text is untrusted.** Escape into templates with `esc()`
    (`index.html:1553`), then pass markdown/HTML through `sanitizeHtml()`
    (`index.html:1565`) via `md()` (`index.html:1598`). There is no framework
-   escaping for you: the renderer builds strings and assigns `innerHTML`.
+   framework escaping: the renderer builds strings and assigns `innerHTML`.
 4. **The gallery is one class serving two sections, selected by
    `data-mf-source`.** `#motion` (`index.html:1137`) and `#render-3d`
    (`index.html:1176`) differ only by `SOURCE_CONFIG` (`motion-gallery.ts:313-328`).
@@ -102,7 +102,7 @@ Supabase REST (13 tables, published rows)      static api/*.json
 - Descriptions are composed in `shape.js`, then re-parsed in the browser. Both
   ends agree on a small grammar: `Role:`-style meta lines and
   `Problem:`/`Action:`-style block headers (`shape.js:28-35`,
-  `index.html:1622-1639`). If you add a key, add it to **all three** lists:
+  `index.html:1622-1639`). A new key belongs in **all three** lists:
   `LEGACY_META_KEYS`, `META_KEYS`, `META_ORDER` (`index.html:1713`).
 
 ## 4. DOM hooks: use the existing ids, never invent new ones
@@ -134,7 +134,7 @@ Rules:
   `data-mf-heading`, `data-mf-description`, `data-mf-skeleton`). The gallery
   queries them by name in its constructor (`motion-gallery.ts:421-440`).
 
-## 5. Gallery mechanics you must not disturb
+## 5. Gallery mechanics that must not be disturbed
 
 - **One ring, two sections.** `loop` turns on at three or more prints
   (`motion-gallery.ts:477`); below three the carousel is bounded.
@@ -194,7 +194,7 @@ node tests/motion-gallery.mjs     # self-hosts dist/, generates ffmpeg fixtures
 Match the gate to the change: shape/description logic -> `shape.test.mjs`; any
 `#cms-*` section or modal -> `public-smoke.mjs`; gallery layout, drag or rotation
 -> `render3d-gallery.mjs` and/or `motion-gallery.mjs`. Quote the actual pass/fail
-output in your report; do not paraphrase it.
+output in the report; do not paraphrase it.
 
 ## 8. Publish checklist
 

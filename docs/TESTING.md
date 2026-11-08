@@ -154,7 +154,7 @@ CORS headers (`:631-651`), so the test never depends on what is published.
 
 | Symptom | First thing to check |
 |---|---|
-| `dist/index.html not found` | you skipped `npm run build` |
+| `dist/index.html not found` | `npm run build` was skipped |
 | every count is 0 | content fetch failed; open the page and read the console, then check `VITE_*` env or `dist/api/*.json` |
 | modal assertions fail but the page looks fine | `renderRichDescription` grammar, then `shape.js` composition |
 | gallery prints exist but are 0px | section was hidden at measure time; see `motion-gallery.ts:453-455` and the `maybeStart` fallback |
@@ -171,6 +171,6 @@ CORS headers (`:631-651`), so the test never depends on what is published.
 - The lightbox focus trap and `Escape` handling.
 - Custom domain and CDN behaviour. See `docs/BUILD-AND-DEPLOY.md` section 5.
 
-If you touch one of those, add the assertion in the same change. The harness
-already exposes what you need: `window.MotionFrames`, `window.RenderFrames`,
+A change to one of those requires adding the assertion in the same change. The
+harness already exposes what is needed: `window.MotionFrames`, `window.RenderFrames`,
 `window.openWorkModal`, `window.openWorkLightbox`.

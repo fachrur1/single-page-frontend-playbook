@@ -105,7 +105,7 @@ step        = clamp((widest + CHROME) * 0.7 + (narrow ? 58 : 88), 200, w * 0.78|
 height      = clamp(lineTop + sag + tallest + CHROME + captionH + 16, 300, budget)
 ```
 
-Three consequences worth knowing before you change a number:
+Three consequences of changing a number:
 
 1. The stage height is written back to the element (`:828-830`) and re-read on the
    next `measure()`. The vertical budget therefore comes from the viewport, not

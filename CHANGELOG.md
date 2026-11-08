@@ -2,7 +2,7 @@
 
 ## 2.0.0
 
-The documentation release: the repo goes from a short playbook to a product.
+The documentation release: coverage and media both expand substantially.
 
 **New documents**
 
@@ -15,7 +15,7 @@ The documentation release: the repo goes from a short playbook to a product.
 - `docs/SEO-AND-META.md`: every head tag and the domain change checklist.
 - `docs/COOKBOOK.md`: twelve worked recipes with verification commands.
 - `docs/EXTRA-ENTRIES.md`: the two standalone pages that share the build.
-- `LISTING.md`: marketplace copy, pricing tiers and FAQ.
+- `LISTING.md`: package summary with contents, coverage, assumptions and terms.
 
 **Media**
 
@@ -34,8 +34,8 @@ The documentation release: the repo goes from a short playbook to a product.
 - Theme captures used to catch the hero intro half typed, because switching a theme
   restarts the typewriter. The capture run now settles the intro once and repaints it.
 - The SDSS capture used to show a loading bar at 84 percent. It now waits for the model.
-- `MANIFEST.md` used to say personal content is expected in the pixels. That is no longer
-  true and no longer acceptable: all captures come from a fictional dataset.
+- `MANIFEST.md` used to state that real content was expected in the pixels. The manifest
+  now documents each capture against the demo build instead.
 
 ## 1.0.0
 

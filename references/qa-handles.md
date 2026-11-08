@@ -32,7 +32,7 @@ database-shaped fixtures or finished items; both work.
 
 `setData` is a full remount: it clears the track and the tick row, removes the
 skeleton, sets `data-mf-state="ready"` and measures again
-(`motion-gallery.ts:444-487`). Anything you asserted before calling it is gone.
+(`motion-gallery.ts:444-487`). Anything asserted before calling it is gone.
 
 ## 2. `inspect()` fields
 
@@ -76,7 +76,7 @@ Three rules when asserting:
    `progress` to be within a small epsilon of an integer, or just sleep.
 3. **`ratio` is the layout ratio.** For a 9:16 print rotated 90 degrees it is
    about 1.78, not 0.56. The source ratio is not exposed; compute it from
-   `mediaWidth/mediaHeight` on an unrotated fixture if you need it.
+   `mediaWidth/mediaHeight` on an unrotated fixture if the source ratio is needed.
 
 ## 3. Recipes
 
@@ -144,7 +144,7 @@ headers fails the request instead of returning an empty set.
 | `window.goToWorkSlide(i)` | works carousel without arrow clicks |
 | `window.__workMediaSets` | inspect the resolved URL set of a modal strip |
 
-## 5. What the handles cannot tell you
+## 5. What the handles cannot report
 
 - Whether a poster actually decoded. `hasVideo` and `mediaWidth` say nothing
   about image loading; check `img.complete && img.naturalWidth > 0` on the active

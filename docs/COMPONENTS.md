@@ -5,7 +5,7 @@ static markup plus at most one container that the renderer fills. Nothing is
 templated at build time, so a component is always three things: the markup, the
 paint block that fills it, and the legacy field it reads.
 
-Read the tables like this:
+The tables are keyed as follows:
 
 - **DOM contract** lists the ids and data attributes that must exist. Rename one
   and the paint block either throws or silently skips.
@@ -59,7 +59,7 @@ Only here: `#cms-about-body` is the one section that receives the site-wide
 alignment class. `alignClass` comes from `settingsData.text_alignment`
 (`index.html:1799`, `1938`) and is appended to the element's existing `md-body`
 class, so a change in `site_settings` restyles the about prose only. The modal
-reads a different, non-existent field (see Work modal).
+reads a different, non-existent field (Work modal, below).
 
 ## Education
 
@@ -153,7 +153,7 @@ Only here: the copy is written by `applyCopy()`, which looks for
 `[data-mf-heading]` first and then falls back to `#cms-motion-heading`
 (`motion-gallery.ts:1517-1522`). `#motion` has no `data-mf-heading` attribute, so
 it always uses the id, while `#render-3d` has both. Full mechanics are in
-`docs/GALLERIES.md`; do not duplicate them here.
+`docs/GALLERIES.md` and are not duplicated here.
 
 ## Render 3D gallery
 
@@ -197,8 +197,8 @@ section without touching it.
 Only here: this is the one component whose CMS value never reaches the DOM as
 text. The renderer sets a `data-target` attribute and a separate observer
 animates from 0 to that number when the section is half visible
-(`index.html:2560-2571`). Read the attribute, not the visible digits, when
-testing. The section also has no heading, only three `h4` labels.
+(`index.html:2560-2571`). The attribute, not the visible digits, is what a test
+reads. The section also has no heading, only three `h4` labels.
 
 ## Contact
 
@@ -254,7 +254,7 @@ container, which is why it sits outside `<main>` in DOM order and why its
 ## Shell components
 
 Outside the section flow but part of the same page. They are listed once
-because each has a single owner.
+because each has exactly one implementation.
 
 | Component | Purpose | DOM contract | States | Render |
 |---|---|---|---|---|

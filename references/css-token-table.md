@@ -99,7 +99,7 @@ without a single theme-specific rule (`motion-gallery.css:9-29`).
 | `--mf-ar` | set inline per print | media aspect ratio |
 | `--mf-rot-ratio` | set inline when rotated 90/270 | media box in the swapped frame |
 
-If you change `--mf-pad`, change `PAD` in `motion-gallery.ts:95` in the same
+A change to `--mf-pad` requires changing `PAD` in `motion-gallery.ts:95` in the same
 commit: the layout math derives the paper chrome from it (`CHROME`), and a
 mismatch shows up as prints that are a few pixels off their neighbours.
 

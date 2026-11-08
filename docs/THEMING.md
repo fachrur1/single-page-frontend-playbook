@@ -5,7 +5,7 @@ second layer only aliases them into Tailwind utility names. Themes are pure
 value swaps on `[data-theme]`. Nothing else in the CSS knows which theme is
 active.
 
-## 1. The paragraph you need before touching markdown
+## 1. What to know before touching markdown
 
 The page loads Tailwind from `cdn.tailwindcss.com` (`index.html:24`), and the CDN
 build accepts only an inline `tailwind.config` object (`index.html:102-179`); it
@@ -13,12 +13,12 @@ cannot load a config file and cannot register plugins, so `@tailwindcss/typograp
 is unavailable and every `prose` / `prose-invert` class in this page is a no-op.
 Markdown is therefore styled by the hand-written `.md-body` stylesheet
 (`index.html:651-771`), which is the only reason headings, list markers, block
-quotes and tables look like prose at all. If you add a markdown construct, style
-it in `.md-body`; adding a `prose-*` class will silently do nothing.
+quotes and tables look like prose at all. A new markdown construct must be styled
+in `.md-body`; adding a `prose-*` class silently does nothing.
 
 The root `tailwind.config.js` (`tailwind.config.js:1-91`) and
 `src/style.css` are leftovers from a PostCSS build that the public page does not
-use. Treat them as reference, not as the source of truth.
+use. They are reference, not the source of truth.
 
 ## 2. Layer one: value tokens
 
@@ -66,16 +66,16 @@ listed; every theme defines the full set.
 Notes:
 
 - Five themes live in `<style id="theme-vars">` (`index.html:181-305`); the last
-  three live in a second, unnamed `<style>` block (`index.html:541-605`). If you
-  add a theme, add it next to the others in the same block you are editing, and
-  keep the two blocks consistent in which block owns which.
+  three live in a second, unnamed `<style>` block (`index.html:541-605`). A new
+  theme goes next to the others in the same block being edited, and the two
+  blocks stay consistent in which block owns which.
 - The document starts as `<html class="dark scroll-smooth">` with no
   `data-theme` (`index.html:1`), so `forest` (bound to `:root`) is the
   pre-JavaScript appearance. JavaScript then applies `monochrome` as the default
   choice when nothing is stored (`index.html:2332`).
 - `dark:` variants are active in every theme, including `light`, because
   `darkMode: "class"` (`index.html:104`) and the class never changes
-  (`index.html:1`). Do not use `dark:` to express "dark theme"; use a token.
+  (`index.html:1`). A token, not `dark:`, expresses "dark theme".
 
 ## 4. Layer two: Tailwind aliases
 
@@ -88,8 +88,8 @@ colors: { "surface-container-high": "var(--color-surface-container-high)", ... }
 So `bg-surface-container-high` compiles to
 `background-color: var(--color-surface-container-high)` in the generated
 stylesheet, and the value still comes from the active theme. There is no second
-palette to maintain: adding a colour means adding a variable and, if you want a
-utility name for it, one alias line.
+palette to maintain: adding a colour means adding a variable and, for a utility
+name, one alias line.
 
 The same block defines the rest of the scale (`index.html:156-175`):
 
@@ -136,9 +136,9 @@ the mobile menu (`index.html:1025-1032`), so a new theme needs a button in both.
 The `FELTS` table (`index.html:2312-2321`) still writes a three-step palette to
 `--tt-felt-light|mid|deep` on every theme change. It was built for the old
 turntable view, which has been replaced by the hanging-print gallery
-(`index.html:1173-1175`), so nothing consumes those variables today. Keep the
-table in sync when adding a theme, or delete it and the writes together; a
-half-removed theme entry is a silent fallback to `monochrome`
+(`index.html:1173-1175`), so nothing consumes those variables today. The table
+must stay in sync when a theme is added, or it and the writes must be deleted
+together; a half-removed theme entry is a silent fallback to `monochrome`
 (`index.html:2322`).
 
 ## 6. Composition patterns in use
@@ -152,17 +152,17 @@ half-removed theme entry is a silent fallback to `monochrome`
 
 ## 7. Adding or changing a colour
 
-1. Add the variable to **every** theme block (`index.html:188-301` and
+1. The variable goes in **every** theme block (`index.html:188-301` and
    `541-605`). A token defined in only one theme resolves to nothing elsewhere.
-2. Add the Tailwind alias in `index.html:107-155` if you want a utility name.
-3. If the colour drives canvas or gradients, add the `-rgb` companion too.
-4. Check the page in at least `forest`, `light` and `monochrome`: those three
-   cover dark, light and pure contrast.
-5. Run `node tests/public-smoke.mjs` (it fails on console errors, which is how a
-   broken token usually surfaces) and `node tests/render3d-gallery.mjs` if the
-   gallery plate is involved.
+2. The Tailwind alias in `index.html:107-155` is needed only for a utility name.
+3. A colour that drives canvas or gradients also needs the `-rgb` companion.
+4. The page needs checking in at least `forest`, `light` and `monochrome`: those
+   three cover dark, light and pure contrast.
+5. `node tests/public-smoke.mjs` catches a broken token (it fails on console
+   errors, which is how one usually surfaces), and
+   `node tests/render3d-gallery.mjs` covers the gallery plate.
 
-Never write a raw hex outside a theme block. The gallery is the model to copy:
+A raw hex outside a theme block is never valid. The gallery is the model:
 it declares scoped `--mf-*` tokens that are *derived* from the site tokens
 (`motion-gallery.css:9-18`), so it re-themes for free.
 

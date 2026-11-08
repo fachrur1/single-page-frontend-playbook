@@ -64,8 +64,8 @@ mp4, a 96 colour palette for gif).
 
 ## Notes for reviewers
 
-- The content in these images is fictional by design. If you re-capture against a real
-  deployment, the redaction gate is what keeps identity strings out of the files.
+- The content in these images is fictional by design. A re-capture against a real
+  deployment relies on the redaction gate to keep identity strings out of the files.
 - An empty grid means the content fetch failed. Check the console before blaming the
   renderer.
 - An empty clothesline is the intended empty state (`data-mf-state="empty"`), not a layout

@@ -1,12 +1,12 @@
-# Front-end playbook for a single-page portfolio
+# Front-end playbook for a CMS-driven single-page site
 
-Everything you need to understand, extend and ship a production portfolio front-end
-that renders CMS content: one HTML page, no framework, two hand-written modules, a
-hanging-print media gallery, eight themes, and the browser gates that keep it honest.
+Technical documentation for a production front end built as one HTML page, without a
+framework: two hand-written modules, a hanging-print media gallery with spring physics,
+eight themes on one variable layer, and the browser gates that protect the layout.
 
-This repository is documentation, not a template. It is the engineering knowledge base
-behind a live site, written so that a new maintainer (or an AI coding agent) can change
-it without breaking it.
+The subject is the architecture, not one particular website. The screenshots come from a
+reference implementation running on a local demo dataset, so every number below can be
+traced to a file and a line.
 
 ![Hero](docs/images/01-hero.png)
 
@@ -16,36 +16,22 @@ it without breaking it.
 | **2 screen recordings** | the gallery being dragged, and all eight themes cycling |
 | **15 documents** | about 4,300 lines of cited engineering notes |
 | **3 reference tables** | DOM hooks, CSS tokens, QA handles |
-| **1 capture tool** | reproduces every image in this repo, with a redaction gate |
+| **1 capture tool** | regenerates every image, with a redaction gate |
 
 ---
 
-## Who this is for
+## Architecture
 
-- **A developer inheriting a portfolio, landing page or agency template** built as
-  plain HTML plus a little TypeScript, where the design must not change while the
-  content moves into a CMS.
-- **An AI coding agent** working inside that codebase. `SKILL.md` is written to be
-  loaded as project instructions.
-- **A buyer evaluating the build.** The screenshots, the measured performance numbers
-  and the pitfall list show what the code actually does, not what a sales page claims.
-
-Not for you if you want a component library, a framework starter, or a site you can
-rebuild in an afternoon from a template. This is the opposite: a small number of large
-files, heavily optimised, with the trade-offs written down.
-
-## What the site is
-
-One `index.html` holds the whole public page: markup, the design tokens, a Tailwind CDN
+One `index.html` holds the whole public page: markup, design tokens, a Tailwind CDN
 config, and a large inline renderer that paints CMS content into `#cms-*` containers.
-Two TypeScript modules are loaded as ES modules:
+Two TypeScript modules load as ES modules:
 
 - `src/cms/public-content.ts` reads published rows over PostgREST and hands them to
   `src/cms/shape.js`, a pure mapper that produces the shape the renderer expects.
-- `src/gallery/motion-gallery.ts` is a hanging-print carousel with spring physics, used
-  by both `#motion` (video) and `#render-3d` (stills).
+- `src/gallery/motion-gallery.ts` implements the hanging-print carousel and serves both
+  `#motion` (video) and `#render-3d` (stills).
 
-Everything else is CSS, a spring integrator, and puppeteer tests.
+Everything else is CSS, one spring integrator, and puppeteer tests.
 
 ```mermaid
 flowchart LR
@@ -57,6 +43,37 @@ flowchart LR
   DB --> G[motion-gallery.ts]
   G --> M[#motion and #render-3d]
 ```
+
+Two constraints shape most of the code:
+
+- The public page loads Tailwind from a CDN, so no plugin can be registered and the
+  typography plugin never runs. Markdown is styled by a hand-written `.md-body` block.
+- The galleries are laid out from measured widths, not fixed sizes, which is what keeps
+  portrait and landscape media on the same clothesline.
+
+## Contents
+
+| Document | Subject |
+|---|---|
+| [SKILL.md](SKILL.md) | Agent playbook: layers, invariants, hook map, verification protocol, pitfall shortlist |
+| [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | Entry points, module graph, boot sequence, fallback layers, build pipeline |
+| [docs/RENDERING.md](docs/RENDERING.md) | Rows to legacy shape to DOM: mapper, description grammar, sanitiser, carousel and modal |
+| [docs/GALLERIES.md](docs/GALLERIES.md) | Layout math, drag, breeze physics, rotation, reduced motion |
+| [docs/DESIGN-SYSTEM.md](docs/DESIGN-SYSTEM.md) | Colour roles per theme with computed contrast ratios, type scale, spacing, elevation |
+| [docs/COMPONENTS.md](docs/COMPONENTS.md) | Section-by-section inventory: DOM contract, source field, states, rendering range |
+| [docs/THEMING.md](docs/THEMING.md) | Token layers and the Tailwind CDN constraint |
+| [docs/ACCESSIBILITY.md](docs/ACCESSIBILITY.md) | Current behaviour and the measured gaps, each with the smallest fix |
+| [docs/PERFORMANCE.md](docs/PERFORMANCE.md) | File sizes, animation budgeting, font strategy, improvement list |
+| [docs/SEO-AND-META.md](docs/SEO-AND-META.md) | Every head tag, the JSON-LD block, the domain change checklist |
+| [docs/COOKBOOK.md](docs/COOKBOOK.md) | Twelve worked changes, each with its verification command |
+| [docs/EXTRA-ENTRIES.md](docs/EXTRA-ENTRIES.md) | The two standalone pages that share the build |
+| [docs/BUILD-AND-DEPLOY.md](docs/BUILD-AND-DEPLOY.md) | Scripts, entry points, Cloudflare Pages, custom domain verification |
+| [docs/TESTING.md](docs/TESTING.md) | Node suites and puppeteer gates, and what each proves |
+| [docs/PITFALLS.md](docs/PITFALLS.md) | Numbered failures with the symptom each prevents |
+| [references/](references/) | DOM hooks, CSS tokens per theme, QA handles for browser tests |
+| [tools/capture.mjs](tools/capture.mjs) | Regenerates every screenshot and clip |
+| [LISTING.md](LISTING.md) | Package summary: contents, coverage, terms |
+| [CHANGELOG.md](CHANGELOG.md) | Release history |
 
 ## Screenshots
 
@@ -76,9 +93,9 @@ flowchart LR
 
 Higher quality: [gallery-drag.mp4](docs/media/gallery-drag.mp4), 2.3 seconds, 172 KB.
 
-A drag swings the whole clothesline. Each print keeps its own phase of ambient breeze,
-and the active print is exactly still, because the breeze amplitude is gated by how
-active the print is. The clip is a real recording of the component.
+A drag swings the whole clothesline. Each print keeps its own phase of ambient breeze, and
+the active print stays exactly still because the breeze amplitude is gated by how active
+the print is. The clip is a recording of the component, not a mockup.
 
 ### Eight themes
 
@@ -91,8 +108,8 @@ active the print is. The clip is a real recording of the component.
 
 Higher quality: [theme-cycle.mp4](docs/media/theme-cycle.mp4), 6.1 seconds, 596 KB.
 
-Every theme is a variable block, so no component knows about colours. Adding a ninth
-theme is four edits, documented in the cookbook.
+Each theme is a variable block, so no component holds a colour. A ninth theme is four
+edits, listed in the cookbook.
 
 ### Mobile
 
@@ -106,108 +123,68 @@ theme is four edits, documented in the cookbook.
 |---|---|
 | ![Aru Meet](docs/images/27-meet.png) | ![Suitability SDSS](docs/images/28-suitability.png) |
 
-Two standalone pages ship from the same build, documented in
-[EXTRA-ENTRIES.md](docs/EXTRA-ENTRIES.md).
+Two standalone pages are built from the same Vite configuration, documented in
+[EXTRA-ENTRIES.md](docs/EXTRA-ENTRIES.md). The full tour with captions is in
+[docs/SCREENSHOTS.md](docs/SCREENSHOTS.md).
 
-Full tour with captions: [docs/SCREENSHOTS.md](docs/SCREENSHOTS.md).
+## Measured findings
 
-## What is inside
-
-| Document | What you get |
-|---|---|
-| [SKILL.md](SKILL.md) | The agent playbook: layers, invariants, hook map, verification protocol, pitfall shortlist |
-| [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | Entry points, module graph, boot sequence, fallback layers, build pipeline |
-| [docs/RENDERING.md](docs/RENDERING.md) | Rows to legacy shape to DOM: the mapper, the description grammar, sanitisation, the carousel and modal |
-| [docs/GALLERIES.md](docs/GALLERIES.md) | The hanging-print gallery: layout math, drag, breeze physics, rotation, reduced motion |
-| [docs/DESIGN-SYSTEM.md](docs/DESIGN-SYSTEM.md) | Colour roles per theme with measured contrast ratios, type scale, spacing, elevation, motion language |
-| [docs/COMPONENTS.md](docs/COMPONENTS.md) | Section-by-section inventory: DOM contract, source field, states, rendering range |
-| [docs/THEMING.md](docs/THEMING.md) | Token layers, and the Tailwind CDN constraint that makes `prose` inert |
-| [docs/ACCESSIBILITY.md](docs/ACCESSIBILITY.md) | What the site does, and an honest list of where it falls short |
-| [docs/PERFORMANCE.md](docs/PERFORMANCE.md) | Measured bundle sizes, animation budgeting, font strategy, improvement list |
-| [docs/SEO-AND-META.md](docs/SEO-AND-META.md) | Every head tag, what it does, and the domain change checklist |
-| [docs/COOKBOOK.md](docs/COOKBOOK.md) | Twelve worked recipes, each with its verification command |
-| [docs/EXTRA-ENTRIES.md](docs/EXTRA-ENTRIES.md) | The two standalone pages that share the build |
-| [docs/BUILD-AND-DEPLOY.md](docs/BUILD-AND-DEPLOY.md) | Scripts, entry points, Cloudflare Pages, custom domain verification |
-| [docs/TESTING.md](docs/TESTING.md) | Node suites and puppeteer gates, and what each one proves |
-| [docs/PITFALLS.md](docs/PITFALLS.md) | Numbered failures with the symptom each one prevents |
-| [references/](references/) | DOM hooks, CSS tokens per theme, QA handles for browser tests |
-| [tools/capture.mjs](tools/capture.mjs) | Reproduces every screenshot and clip, with a redaction gate |
-| [LISTING.md](LISTING.md) | Marketplace copy: title, long description, pricing tiers, FAQ, and the claims to avoid |
-| [CHANGELOG.md](CHANGELOG.md) | What changed in each release |
-
-## What the audit already found
-
-These are not hypothetical. Each one was measured while writing the docs, and each one
-has a named fix in the file it came from.
+Recorded while documenting the code. Each entry names the file that owns the fix; none of
+these is inferred from a screenshot.
 
 - **29 of the 47 colour aliases in the Tailwind config resolve to an undefined variable.**
-  Nav links and the hero button hover to `primary-fixed-dim`, which is one of the empty
-  ones, so those hovers never change colour (`docs/DESIGN-SYSTEM.md`).
-- **One of the eight themes fails contrast badly.** The sand accent `#d4af37` on its cream
+  Nav links and the hero button hover to `primary-fixed-dim`, one of the empty aliases, so
+  those hovers never change colour (`docs/DESIGN-SYSTEM.md`).
+- **One of the eight themes fails contrast.** The sand accent `#d4af37` on its cream
   surface measures 1.94:1. The other seven pass for body text; four fail for filled
   buttons (`docs/DESIGN-SYSTEM.md`, `docs/ACCESSIBILITY.md`).
-- **The work modal is not a dialog.** No `role`, no `aria-modal`, no focus move, no focus
-  trap, no Escape handler, no focus restore. The image lightbox already implements the
-  whole pattern and is the model to copy (`docs/ACCESSIBILITY.md`).
-- **The closed mobile menu is still in the tab order.** It is translated off screen rather
-  than hidden, so its links and eight theme buttons stay reachable by keyboard
+- **The work modal is not a dialog.** No `role`, no `aria-modal`, no focus move, no trap,
+  no Escape handler and no focus restore. The image lightbox implements the complete
+  pattern and is the model to copy (`docs/ACCESSIBILITY.md`).
+- **The closed mobile menu stays in the tab order.** It is translated off screen instead
+  of hidden, so its links and eight theme buttons remain keyboard reachable
   (`docs/ACCESSIBILITY.md`).
-- **The icon font is 4.0 MB, the page is 195 KB before gzip, and first paint waits on a
-  2.9 second timer chain.** All three numbers are measured, not estimated
-  (`docs/PERFORMANCE.md`).
-- **The deploy folder carries 36 MB of unreferenced images and 11 MB of models.** Nothing
-  on the page points at them (`docs/PERFORMANCE.md`).
+- **The icon font is 4.0 MB, the document is 195 KB before gzip, and first paint waits on
+  a 2.9 second timer chain.** All three numbers are measured (`docs/PERFORMANCE.md`).
+- **The deploy folder carries 36 MB of unreferenced images and 11 MB of models.** No page
+  references them (`docs/PERFORMANCE.md`).
 
-A buyer who reads these before quoting knows exactly what the work is. That is the point
-of the repository.
+## Reading order
 
-## How to use it
+An agent should load `SKILL.md` first, then the single topic document that matches the
+change, then `references/*` for exact identifiers, then `docs/PITFALLS.md` before
+declaring the change complete.
 
-If you are an agent, load in this order and stop as soon as the task is covered:
+For a human reader the useful entry points are the screenshots, then
+`docs/ARCHITECTURE.md`, then the topic that matches the work. `docs/COOKBOOK.md` maps
+common changes to a diff and a verification command.
 
-1. `SKILL.md` for the rules and the map.
-2. The one topic document that matches the task.
-3. `references/*` for exact identifiers.
-4. `docs/PITFALLS.md` before you call the change done.
-
-If you are a human, start with the screenshots, then `docs/ARCHITECTURE.md`, then the
-topic that matches what you want to change. The cookbook is the fastest route from
-"how do I add a work card" to a correct diff.
-
-## What makes this documentation different
-
-- **Every claim is cited.** `src/gallery/motion-gallery.ts:108` means you can open the
-  file and check the sentence in seconds. Line numbers drift, the identifier does not.
-- **Failures are documented, not hidden.** The `prose` classes do nothing. A rotated
-  element reports a rotated bounding box. Two class toggles have no CSS. There is a
-  measured list of accessibility gaps. A buyer who knows the flaws can estimate the
-  work, a buyer who does not cannot.
-- **Media is reproducible.** `tools/capture.mjs` regenerates all 31 assets from a local
-  build and refuses to write a file while a known identity string survives redaction.
-
-## Scope
-
-This repo documents the public front end. The admin dashboard, the database schema, the
-RLS policies and the migration tooling live in
-[supabase-portfolio-cms](https://github.com/fachrur1/supabase-portfolio-cms), which also
-ships a credential-free demo harness that reproduces the build these screenshots came
-from.
-
-## Conventions used in these docs
+## Conventions
 
 - Citations are `path:line` relative to the site repository root, for example
-  `src/gallery/motion-gallery.ts:947`. When a line has moved, search for the cited
+  `src/gallery/motion-gallery.ts:947`. When a line has drifted, search for the cited
   identifier.
-- The site owner and their content are never quoted. Content is called "CMS rows", and
-  the production domain and the hosting project name are kept out of the text.
+- Content is referred to as "CMS rows". The production domain and the hosting project
+  name do not appear in the text.
 - Diagrams are mermaid code fences and render on GitHub.
 - "Renderer" means the inline `<script>` at `index.html:1542-2289`. "Gallery" means
   `src/gallery/motion-gallery.ts`. "Shape" means `src/cms/shape.js`.
 
+## Scope
+
+This repository documents the public front end. The admin dashboard, the database schema,
+the RLS policies and the migration tooling are in
+[supabase-portfolio-cms](https://github.com/fachrur1/supabase-portfolio-cms), together
+with a credential-free demo harness that reproduces the build used for these captures.
+
+## Requirements
+
+Node 20 or newer, and Puppeteer available where `tools/capture.mjs` runs. The
+documentation itself has no build step.
+
 ## Licence
 
-MIT. You can use the text, the diagrams and the reference tables in your own project,
-commercial or not. Attribution is appreciated, not required.
+MIT. The text, diagrams and reference tables may be reused in any project, commercial or
+not. Attribution is appreciated, not required.
 
-The screenshots show a demo dataset with invented content. No personal data from the
-live site appears in this repository.
+The captures in this repository were taken from a local build with demo content.

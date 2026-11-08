@@ -1,113 +1,95 @@
-# Listing copy
+# Package summary
 
-Ready-to-paste copy for marketplace listings (agensi.io or similar). Numbers match the
-repository as published: 27 screenshots, 2 clips, 15 documents, about 4,300 lines of
-cited notes. Update this file when the repo changes.
+A factual description of what this repository contains, usable as listing text. Every
+number matches the published files.
 
 ## Title
 
-**Front-end playbook: single-page portfolio with CMS, 8 themes, hanging-print gallery**
+Front-end playbook for a CMS-driven single-page site
 
-Short variant: **Portfolio front-end playbook (plain HTML + TS, CMS-driven)**
+## One line
 
-## Tagline
+Documented architecture for a production front end: one HTML page, a CMS content
+pipeline, a spring-physics print gallery, and eight themes on a single variable layer.
 
-Change content without touching design, and know exactly what will break before you do.
+## Summary
 
-## Short description (250 characters)
+The repository documents a front end that renders its content from a CMS without a
+framework: one `index.html` holding markup and design tokens, a pure mapper between
+database rows and the shape the renderer consumes, and a hanging-print media gallery
+written from scratch around a spring integrator instead of an animation library.
 
-An engineering knowledge base for a production portfolio front-end: one HTML page, a
-CMS content pipeline, eight themes, a spring-physics print gallery, and the browser
-gates that protect them. Every claim is cited to file and line.
+The documentation covers the code as it is, including measured defects. Every behavioural
+claim carries a `path:line` citation, so a claim can be checked against the source in
+seconds.
 
-## Long description
+## Contents
 
-Most front-end listings give you a template. This one gives you the knowledge to change
-one safely.
-
-The repository documents a live single-page portfolio that renders its content from a
-CMS: one `index.html` holding markup and design tokens, a pure mapper that turns
-database rows into the shape the renderer expects, and a hanging-print media gallery
-written from scratch with a spring integrator instead of an animation library.
-
-What a buyer gets:
-
-- **The whole map.** Architecture, rendering pipeline, component inventory, design
-  system, gallery physics, build and deploy, and the SEO and accessibility situation,
-  including the gaps.
-- **Citations, not assertions.** Every behavioural claim points at `path:line`, so a
-  developer or an agent can verify it in seconds instead of trusting the prose.
-- **A gallery you cannot find in a template.** Prints hang from a wire, each with its
-  own phase of ambient breeze, a drag that swings the whole line, per-item rotation for
-  portrait media, and a reduced-motion path that collapses all of it.
-- **Eight themes on one variable layer.** No component knows a colour, so a ninth theme
-  is four edits.
-- **Media that proves it.** 27 screenshots across every section, all eight themes,
-  mobile, and two recorded clips of the gallery and the theme switch.
-- **A reproducible capture tool.** The screenshots are not hand-taken: a script drives
-  the built site, and refuses to write a file if a known identity string survives
-  redaction.
-
-Honest limitations, stated in the docs: the page is a small number of large files, the
-Tailwind CDN cannot load the typography plugin so `prose` classes do nothing, and
-several accessibility items are still open (there is a measured list).
-
-## Feature bullets
-
-- CMS-driven content with a static fallback, so the page never renders empty
-- Pure mapper between database rows and the renderer's expected shape
-- Hanging-print carousel with spring physics, drag, ambient breeze, and rotation
-- Eight themes from one token layer, no per-component colours
-- Markdown rendering with an allowlist sanitiser and scheme checks
-- Works carousel that merges two tables into one list and one modal
-- Puppeteer gates for layout, drag, rotation, and content self-consistency
-- Documented failure modes: 30 numbered pitfalls with the symptom each prevents
-- Measured performance numbers with the command that produced them
-
-## Suggested metadata
-
-- **Category:** Documentation / Front-end engineering / Portfolio
-- **Tags:** portfolio, front-end, html, typescript, vite, cms, supabase, animation,
-  design-system, documentation, claude, cursor, ai-agent
-- **Audience:** developers, agencies, AI coding agents
-- **Licence:** MIT (text and diagrams), screenshots are demo content
-
-## Suggested pricing tiers
-
-| Tier | Contents | Why someone picks it |
+| Item | Count | Notes |
 |---|---|---|
-| Starter | This repository as published | They need the map and the pitfalls |
-| Pro | Repository plus a screen-share walkthrough of the gallery and the CMS pipeline | They inherit the codebase and want orientation |
-| Agency | Repository plus a written change plan for their own site (one pass) | They are rebranding it for a client |
+| Documents | 15 | architecture, rendering, galleries, design system, components, theming, accessibility, performance, SEO, cookbook, extra entries, build and deploy, testing, pitfalls, screenshots |
+| Agent playbook | 1 | `SKILL.md`, written to be loaded as project instructions |
+| Reference tables | 3 | DOM hooks, CSS tokens per theme, QA handles |
+| Screenshots | 27 | desktop, mobile, eight themes, both galleries, two extra entry points |
+| Screen recordings | 2 | gallery drag, theme cycle (mp4 and gif) |
+| Tooling | 1 | `tools/capture.mjs`, regenerates all 31 media files |
+| Total weight | 8.3 MB | mostly screenshots and clips |
 
-## FAQ
+## Coverage
 
-**Is this a template I can deploy as is?**
-No. It is documentation for a front-end architecture. The site code is not included,
-which is why the docs are useful: they describe the contract well enough to rebuild or
-maintain it.
+**Data path.** PostgREST reads, the legacy shape contract, the mapper, draft filtering,
+static fallback, CV link rewriting.
 
-**Why no framework?**
-Because the original had none, and the interesting engineering is in how a large single
-page stays coherent: one mapper, one renderer, one gallery class. Framework advice is
-everywhere; this is the other case.
+**Rendering.** Section-by-section DOM contract, markdown grammar, sanitisation, the works
+carousel and the detail modal.
 
-**Does it include the backend?**
-The admin app, database schema and RLS policies live in a separate repository
-(`supabase-portfolio-cms`). This one covers the public front end.
+**Motion.** Spring integration, drag handling on window listeners, ambient breeze with
+per-print phase, media rotation with the layout box swap, reduced-motion path.
 
-**Are the screenshots of a real person?**
-No. They were captured from a local build with a fictional dataset, and the capture tool
-refuses to write a file while a known identity string survives redaction.
+**Design.** Eight themes with computed WCAG ratios, type scale, spacing, elevation,
+iconography, motion language.
 
-**Will the line numbers rot?**
-Yes, eventually. That is why citations include the identifier next to the line number,
-and why the conventions section tells you to search for the identifier when a line has
-moved.
+**Operations.** Build pipeline, four Vite entry points, Cloudflare Pages deployment,
+custom domain verification, node suites and puppeteer gates.
 
-## Do not claim
+**Audit.** 30 numbered pitfalls with symptoms, a measured accessibility gap list, real raw
+and gzip file sizes, and the improvement list that follows from them.
 
-- "production-ready template" (it is documentation)
-- "WCAG AA compliant" (there is a measured gap list)
-- "zero dependencies" (the gallery is dependency-free, the page loads Tailwind and fonts
-  from CDNs)
+## Measured highlights
+
+- Document: 195,294 bytes raw, 46,104 bytes gzip.
+- Main bundle: 35,163 bytes raw, 11,934 bytes gzip.
+- Icon font: 4,011,996 bytes for the outlined variable font.
+- Content hold before first paint: 2,900 ms of timer chain.
+- Unreferenced deploy weight: 36 MB of images, 11 MB of models.
+- Contrast: seven of eight themes pass 4.5:1 for body text, one measures 1.94:1.
+
+## Assumptions
+
+The documentation assumes a site built as plain HTML with a Vite build, content read from
+a REST backend at runtime, and no framework in the renderer. The gallery and the token
+layer are independent of the content source. The mapper section is specific to the legacy
+shape contract described in `docs/RENDERING.md`.
+
+## Included
+
+- All documentation, diagrams and reference tables.
+- The capture tool and its redaction gate.
+- The full screenshot and clip set.
+
+## Not included
+
+- The application source. This repository documents an architecture. It is not the site
+  codebase and is not deployable on its own.
+- The admin dashboard, database schema and migrations, which live in the backend
+  repository.
+- Any credential, endpoint or account identifier.
+
+## Licence
+
+MIT for the text, diagrams and reference tables. Attribution is appreciated, not
+required. The screenshots show demo content captured from a local build.
+
+## Version
+
+2.0.0. See [CHANGELOG.md](CHANGELOG.md).

@@ -57,7 +57,7 @@ the same eighteen.
 | `--color-inverse-surface` | text that inverts the surface | hero title `index.html:1051`, card titles `index.html:1946` |
 | `--color-inverse-on-surface`, `--color-surface-dim` | inverse text, dimmed surface | defined in all eight themes, never referenced |
 
-Two consequences worth knowing before you touch this layer.
+Two consequences of touching this layer.
 
 - The config aliases 47 names but only 18 are defined (`index.html:107-155`
   against `index.html:188-209`). The other 29, including `secondary`,
@@ -83,7 +83,8 @@ Transcribed from `index.html:188-301` and `index.html:541-605`.
 | `sunset` | `#ff6b6b` | `#2b0b1e` | `#fee2e2` | `#fecaca` | `#9d2b67` |
 | `monochrome` | `#ffffff` | `#000000` | `#ffffff` | `#cccccc` | `#444444` |
 
-The full 18 token matrix is in `references/css-token-table.md`; do not retype it.
+The full 18 token matrix is in `references/css-token-table.md`; it is not to
+be retyped.
 
 ### Contrast
 
@@ -113,8 +114,8 @@ const ratio = (a, b) => { const [x, y] = [L(a), L(b)].sort((p, q) => q - p); ret
 Body text is safe in all eight themes; the accent in seven. Aleksandria's gold
 (`#d4af37`) on cream (`#fdf5e6`) is the real failure: it is used for headings
 (`index.html:1084`), the wordmark (`index.html:955`) and every link, and 1.94:1 is
-unreadable at any size. Darken `--color-primary` in that block rather than adding
-an override.
+unreadable at any size. The fix is to darken `--color-primary` in that
+block rather than adding an override.
 
 The third column is the filled-button pair, `on-primary` on `primary`
 (`index.html:1054`). Four themes fail 4.5:1 and three fail even 3:1, so a solid
@@ -138,7 +139,7 @@ changes nothing visible; the size utility does the work.
 | `mono-technical` | 14 / 20 | 0 | 500 | tag chips (`index.html:1961`), metadata, counters |
 | `label-caps` | 12 / 16 | 0.1em | 600 | buttons (`index.html:1054, 1058, 2037`), CV link (`index.html:965`) |
 
-Notes that matter when you add a block:
+Notes that matter for a new block:
 
 - `mono-technical` is not monospace. It is Montserrat 14/20 at weight 500
   (`index.html:160, 171`); only `typewriter` is Courier Prime (`index.html:162`).
@@ -146,7 +147,7 @@ Notes that matter when you add a block:
   the lightbox counter name Courier Prime directly (`index.html:724, 901`).
 - `body` carries `font-headline-sm` (`index.html:919`), which sets only the
   family, so the page has no global type size; every block declares its own
-  `text-*` role. Do not read that class as "body text is 24px".
+  `text-*` role. That class does not mean "body text is 24px".
 - Components that predate the scale override it with `text-xs`, `text-sm` or
   `text-xl` (`index.html:2037, 2362`). Exceptions, not a second scale.
 - Markdown from CMS content ignores these roles. `.md-body` hardcodes its own
@@ -178,8 +179,8 @@ Section rhythm:
 - Stats strip: `py-12` instead of `py-section-gap` (`index.html:1215`), because
   it sits between two full sections and would otherwise double the gap.
 
-**Contained vs full-bleed.** The rule is mechanical; check the section class
-before adding padding.
+**Contained vs full-bleed.** The rule is mechanical: the section class decides,
+not the padding.
 
 - Contained is the default: the `<section>` carries `max-w-container-max mx-auto`
   and the horizontal padding (`index.html:1065, 1081, 1091, 1127, 1212, 1232`),
@@ -189,8 +190,8 @@ before adding padding.
   (`index.html:1081-1088`), contact (`index.html:1232`). The galleries do it in
   CSS, `.mf-section` at `width: 100%` with `.mf-intro` capped at 1280px
   (`motion-gallery.css:26, 42-50`).
-- Never mix the two. A full-bleed stage with per-child max widths produces the
-  ragged gutters the galleries were written to avoid.
+- The two are never mixed. A full-bleed stage with per-child max widths
+  produces the ragged gutters the galleries were written to avoid.
 
 ## 5. Shape and elevation
 
@@ -205,7 +206,7 @@ Radius is a four-token scale (`index.html:156`), inverted on purpose.
 
 `rounded` is larger than `rounded-lg`, and `rounded-2xl` (16px) only coincides
 with `rounded` because Tailwind's default 2xl is 1rem. Content cards use
-`rounded-xl` (12px), panels and modals `rounded-2xl` (16px); keep that order.
+`rounded-xl` (12px), panels and modals `rounded-2xl` (16px); that order holds.
 
 - Border: 1px, `color-mix(in srgb, var(--color-outline-variant) 50%, transparent)`
   on glass (`index.html:316`), `/30` on chrome and cards (`index.html:951`,
@@ -230,7 +231,7 @@ Hover and active recipes, with the durations actually written:
 | Scale 1.05 / 1.10 | `group-hover:scale-105`, `group-hover:scale-110` | portrait (`index.html:1070`), contact icons (`index.html:1240`) |
 | Border shift, invert | `hover:border-primary/50`, `hover:bg-primary hover:text-on-primary` | stat cards (`index.html:1217`), arrows and FAB (`index.html:1108, 2355`) |
 
-Two faults worth knowing. `.card-hover` declares a hover transform but no
+Two faults remain. `.card-hover` declares a hover transform but no
 transition, and two of four call sites add no `transition-*` utility
 (`index.html:1944, 2174`), so those cards jump. The contact panel hardcodes a
 forest-green glow, `rgba(78,222,163,0.1)` (`index.html:1234`), wrong in seven.
@@ -252,11 +253,12 @@ Material Symbols Outlined, one variable font (`index.html:101`): optical size
 - CMS icon names are interpolated as text into the same span, so `solar_power`
   renders a glyph and an unknown name renders the words. Skill icons pass
   through the escaper (`${esc(skill.icon)}`, `index.html:1957`); card icons do not
-  (`${block.card.icon}`, `index.html:1755`). Validate names on the way in.
+  (`${block.card.icon}`, `index.html:1755`). Names therefore need validation on
+  the way in.
 - `data-icon` attributes are written in markup (`index.html:1012, 1055, 1306`)
-  but nothing reads them, so ignore them. Decorative icons repeating a text label
-  carry `aria-hidden="true"` (`index.html:1849, 2133`); icon-only buttons get an
-  `aria-label` (`index.html:970`). Keep that split.
+  but nothing reads them, so they are inert. Decorative icons repeating a text
+  label carry `aria-hidden="true"` (`index.html:1849, 2133`); icon-only buttons
+  get an `aria-label` (`index.html:970`). That split holds.
 
 ## 7. Motion language
 
@@ -287,34 +289,34 @@ delay (`index.html:2269-2273`).
 (lightbox controls) and `motion-gallery.css:681-688` (the clothesline). The
 spotlight pulse, drifting dots, particle canvas, reveal, stagger and tilt all
 keep running under `prefers-reduced-motion: reduce`. A third guard should be
-global: wrap the decorative loops, leave the opacity fades.
+global: the decorative loops wrapped, the opacity fades left alone.
 
 Carousel physics, drag, snap and the clothesline belong to `docs/GALLERIES.md`.
 
 ## 8. Do and do not
 
-1. **Do declare every colour in all eight theme blocks.** A hex inside a
-   component is invisible in seven themes; see `index.html:1234`.
-2. **Do reach colour through `var(--color-*)` or a colour utility.** A raw hex
+1. **Every colour is declared in all eight theme blocks.** A hex inside a
+   component is invisible in seven themes, as at `index.html:1234`.
+2. **Colour is reached through `var(--color-*)` or a colour utility.** A raw hex
    outside the token blocks cannot follow the theme, so one element stays behind
    on every switch.
-3. **Do not use `primary-fixed-dim`, `secondary`, `tertiary` or any `*-fixed`
-   alias.** Config-only (`index.html:107-155`), never defined, so the hover does
-   nothing, as on the nav links (`index.html:958-962`).
-4. **Do pair `font-<role>` with `text-<role>`.** All families are Montserrat, so
-   the family class alone leaves a heading at the browser default 16px.
-5. **Do use `rounded-xl` for cards and `rounded-2xl` for panels.** The scale is
+3. **`primary-fixed-dim`, `secondary`, `tertiary` and every `*-fixed` alias are
+   unusable.** Config-only (`index.html:107-155`), never defined, so the hover
+   does nothing, as on the nav links (`index.html:958-962`).
+4. **`font-<role>` is paired with `text-<role>`.** All families are Montserrat,
+   so the family class alone leaves a heading at the browser default 16px.
+5. **Cards take `rounded-xl` and panels `rounded-2xl`.** The scale is
    inverted (`index.html:156`); a wrong step makes nesting look inward.
-6. **Do not add `prose` or `prose-*`.** The CDN build cannot register
+6. **`prose` and `prose-*` do not exist here.** The CDN build cannot register
    `@tailwindcss/typography` (`index.html:651-657`), so markdown collapses.
-7. **Do not use `dark:` to mean "dark theme".** `darkMode: "class"` is on and the
+7. **`dark:` never means "dark theme".** `darkMode: "class"` is on and the
    class never leaves `<html>` (`index.html:1, 104`), so `dark:` also fires in
    `light` and `aleksandria`, and panels stay dark on cream.
-8. **Do use `outline-variant` for hairlines, `outline` only for a stronger
-   line.** `outline` has no utility consumer and reads as a box at 1px.
-9. **Do not copy `duration-1000` onto new hovers; use 300ms for controls and
-   500ms for cards.** Add a `transition-*` utility wherever `.card-hover` is
+8. **`outline-variant` serves hairlines, `outline` only a stronger line.**
+   `outline` has no utility consumer and reads as a box at 1px.
+9. **`duration-1000` does not belong on new hovers; controls take 300ms and
+   cards 500ms.** A `transition-*` utility is required wherever `.card-hover` is
    used: two sites omit it (`index.html:1944, 2174`), so the card snaps 8px.
-10. **Do stay in `--color-*`; never write `--md-sys-color-*`.** Ten declarations
+10. **Colour stays in `--color-*`, never `--md-sys-color-*`.** Ten declarations
     use that undefined family (`index.html:185-186, 1990-1996, 2100-2106`), which
     is why the scrollbar thumb is transparent.

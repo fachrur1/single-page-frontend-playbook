@@ -1,13 +1,13 @@
 # Extra entries
 
-The Vite build emits four HTML documents. One is the portfolio. One is the admin
+The Vite build emits four HTML documents. One is the public page. One is the admin
 dashboard. The other two are demo pages that ship from the same build, share the
-same domain, and are not linked from the portfolio at all: `meet/` and
+same domain, and are not linked from the public page at all: `meet/` and
 `suitability-land-for-RE/`.
 
 They are not sections of the single page and they do not import a single module
 from `src/`. Each is one self contained HTML file with its own inline CSS and
-inline JavaScript. Read this before you touch either, because nothing in the
+inline JavaScript. Read this before touching either, because nothing in the
 public page's tests covers them.
 
 ## What ships
@@ -38,7 +38,7 @@ from the project, so each is emitted as HTML only.
   `tests/motion-gallery.mjs` and `tests/render3d-gallery.mjs` drive
   `window.MotionFrames` / `window.RenderFrames` on the main page.
 - **Unlisted.** `index.html` contains no link to `/meet/` or
-  `/suitability-land-for-RE/`. Grep for either string in `index.html` and you get
+  `/suitability-land-for-RE/`. Grep for either string in `index.html` returns
   nothing. They are reachable only by typing the URL.
 
 ---
@@ -70,7 +70,7 @@ as a client for any existing Daily room.
 ### How it is reached
 
 Built output is `dist/meet/index.html`, served at `/meet/` by Cloudflare Pages.
-There is no link from the portfolio, and no card in Works points at it. It is
+There is no link from the public page, and no card in Works points at it. It is
 also not in `sitemap` or navigation.
 
 The room endpoint only exists where Pages Functions run. A plain static host
@@ -85,8 +85,8 @@ toast while Join by URL still works.
 - **Secret not documented.** `DAILY_API_KEY` appears in `functions/api/room.ts:5`
   and nowhere in `.env.example`, so a new environment looks correctly configured
   and fails at the first room creation.
-- **No way home.** There is no link back to `/`. A visitor who lands on `/meet/`
-  has to edit the URL to get back to the portfolio.
+- **No way home.** There is no link back to `/`. Landing on `/meet/`
+  requires editing the URL to get back to the public page.
 - **Design drift is structural.** The page has its own type scale, its own glass
   classes and an indigo accent (`rgba(99, 102, 241, 1)`,
   `meet/index.html:25`), so it cannot inherit a theme change even if the rest of
@@ -127,7 +127,7 @@ means those 11 MB ship whether or not anyone opens this page.
 
 Built output is `dist/suitability-land-for-RE/index.html`, served at that exact
 folder path. The folder name is part of the public URL: renaming the directory
-requires a redirect. It carries one link back to the portfolio, an anchor to `/`
+requires a redirect. It carries one link back to the public page, an anchor to `/`
 at `:145`.
 
 ### Drift risk
@@ -148,13 +148,13 @@ at `:145`.
   Cormorant for display (`:12`), a parchment and amber palette, its own dark
   base (`#0b0d14`, `:62`). It will never follow a theme or a token change.
 
-## Before you change either one
+## Before changing either one
 
 1. Open the built page, not the source: `npm run build` then
    `npx serve dist -l 5055`, and visit `/meet/` and `/suitability-land-for-RE/`.
 2. Check the external dependency URLs still resolve. Both pages fail at runtime,
    not at build time, when a CDN path moves.
-3. Grep the repo for the page you touched. If the change is a URL or a folder
+3. Grep the repo for the page that was touched. If the change is a URL or a folder
    name, look for hardcoded copies on the other entry, in `vite.config.ts:19-24`,
    and in the deploy command at `vite.config.ts:51`.
 4. If the change is visual, decide whether it belongs to the demo or to the

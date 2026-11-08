@@ -43,7 +43,7 @@ flowchart LR
 - **Monolithic content wins.** If `content/data.json` exists, it is copied
   verbatim to `public/api/data.json` and the modular path is skipped entirely
   (`:20-26`). Editing `content/core/*.json` then has no effect. Check which mode
-  is active before debugging "my content change did nothing".
+  is active before debugging a content change that did nothing.
 - Modular mode assembles `hero`, `about`, `contact`, `education`, `skills`,
   `organizations`, `photography` from `content/core/*.json`,
   `content/experience/organizations.json` and `content/media/photography.json`
@@ -145,7 +145,7 @@ It is read-only and safe against production.
   need a service-role key and must never run in CI.
 - `oji/` has its own workflow (`.github/workflows/deploy-oji.yml`) and its own
   Pages project. It only triggers on changes under `oji/**` on `main`.
-- There is no CI job for the root site. If you want one, the gate sequence is
+- There is no CI job for the root site. If one is wanted, the gate sequence is
   `npm run typecheck`, `npm run build`, `node tests/public-smoke.mjs`.
 
 ## 7. Rollback

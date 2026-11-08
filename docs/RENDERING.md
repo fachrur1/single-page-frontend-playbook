@@ -69,8 +69,8 @@ flowchart TD
   `buildExperienceDescription` (`shape.js:224-237`) are the only two composers.
 - `durationText` normalises dates into `2024`, `2019` to `2022`, or `2026` to
   `Present` style text (`shape.js:79-86`). The separator inside a range is a
-  single typed character, not a hyphen; if you regenerate fixtures, copy it from
-  `tests/shape.test.mjs:37-43` rather than retyping it.
+  single typed character, not a hyphen; regenerated fixtures copy it from
+  `tests/shape.test.mjs:37-43` instead of retyping it.
 - A description that starts with a meta line is left byte identical
   (`startsWithMetaLine`, `shape.js:151-160`). That is asserted in
   `tests/shape.test.mjs:72-80`.
@@ -221,10 +221,10 @@ a scheme allowlist, and returns `innerHTML` (`index.html:1571-1595`). It returns
 `sanitizeHtml`. `marked` is vendored inline (`index.html:25-96`), with a
 degenerate fallback if it failed to load (`index.html:1546-1548`).
 
-**Contract for anyone adding markup:** build strings with `esc()` around every
-value, and pass any HTML fragment through `sanitizeHtml()` before assigning it.
-If a new element is needed in CMS content, add it to `ALLOWED`; do not bypass the
-function.
+**Contract for new markup:** strings are built with `esc()` around every
+value, and any HTML fragment passes through `sanitizeHtml()` before it is
+assigned. A new element needed in CMS content must be added to `ALLOWED`; the
+function is never bypassed.
 
 ## 6. The works carousel
 
@@ -357,5 +357,5 @@ left rail instead of a full width underline.
 
 Everything in this document is exercised by at least one browser assertion:
 section counts and the modal body in `tests/public-smoke.mjs:91-113`, description
-composition in `tests/shape.test.mjs:72-118`. If you change the shape, the
-composers, or the card grammar, run both.
+composition in `tests/shape.test.mjs:72-118`. A change to the shape, the
+composers, or the card grammar requires running both.

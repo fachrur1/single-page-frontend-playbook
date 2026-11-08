@@ -7,11 +7,11 @@ into a container by JavaScript after a fetch.
 
 ## 1. Entry points
 
-Vite builds four HTML entries. Only the first one is the portfolio page.
+Vite builds four HTML entries. Only the first one is the public page.
 
 | Entry | File | Role |
 |---|---|---|
-| `main` | `index.html` | the public single-page portfolio |
+| `main` | `index.html` | the public single-page site |
 | `suitability` | `suitability-land-for-RE/index.html` | standalone demo page, own inline JS + Chart.js CDN |
 | `meet` | `meet/index.html` | standalone demo page, own inline JS + daily-js CDN |
 | `admin` | `admin/index.html` | the content dashboard SPA (backend repository's subject) |
@@ -22,8 +22,8 @@ Declared in `vite.config.ts:19-24`. The two demo entries share nothing with
 
 `oji/` is a separate Astro experiment on the same branch. It has its own
 `package.json`, its own Cloudflare Pages workflow (`.github/workflows/deploy-oji.yml`)
-and is not part of the root Vite build. The public page never loads it. Treat it
-as a parallel prototype, not as a second front-end of this site.
+and is not part of the root Vite build. The public page never loads it. It is
+a parallel prototype, not a second front-end of this site.
 
 ## 2. Module graph
 
@@ -108,8 +108,8 @@ Ordering facts that matter:
   if the loader is already gone when content arrives, the renderer starts the
   animation itself (`index.html:1927-1930`).
 - The renderer polls for `window.CMS` instead of assuming module order
-  (`index.html:1769-1771`). Modules and inline scripts are not ordered relative
-  to each other in a way you can rely on.
+  (`index.html:1769-1771`). Modules and inline scripts have no reliable
+  relative order.
 - The gallery does not wait for the renderer. It boots from its own module
   (`motion-gallery.ts:1584-1590`) and only reads `.mf-section` elements.
 
@@ -158,8 +158,9 @@ start and every build (`scripts/build-cms.ts:116-130`).
 
 `tailwind.config.js` and `src/style.css` are dead weight for the public page:
 the page configures Tailwind in a `<script id="tailwind-config">` block
-(`index.html:102-179`) because the CDN build cannot read a config file. Keep the
-two configs in sync if you change tokens, or delete the unused one deliberately.
+(`index.html:102-179`) because the CDN build cannot read a config file. The two
+configs must stay in sync when tokens change, or the unused one must be deleted
+deliberately.
 
 ## 6. What the build produces
 
@@ -183,6 +184,6 @@ build never bundles a 3D renderer into the public page. Any code that needs
   a `history.pushState` 500 ms after the scroll.
 - No state management. The only persisted state is the theme name in
   `localStorage` (`index.html:2303`, `2332`).
-- No animation library. See `spring.ts:1-9` for the reasoning that is still in
-  force.
+- No animation library. `spring.ts:1-9` records the reasoning that is still
+  in force.
 - No SSR, no hydration, no partials. The single page is the unit of deployment.
