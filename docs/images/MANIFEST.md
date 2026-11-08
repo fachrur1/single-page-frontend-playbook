@@ -1,8 +1,11 @@
 # Image manifest
 
-The PNGs listed here are dropped in by the publishing process. Only this file
-lives in `docs/images/` in the repository; a missing PNG is a broken link, not a
-build error.
+The PNGs listed here are committed next to this file. They were captured from a
+local demo build whose content is fictional (invented projects, a placeholder
+portrait, `example.com` addresses), so nothing in them belongs to a real person.
+If you re-capture, keep that property: the capture harness in the backend
+repository refuses to write a file while a known identity string survives
+redaction.
 
 Viewports: **desktop 1440x900**, **mobile 390x844** (mobile emulation:
 `isMobile: true, hasTouch: true`). Device pixel ratio 1, full page off, viewport
@@ -13,7 +16,7 @@ capture on.
 | 01 | `01-hero.png` | desktop 1440x900 | `#home` | two-line hero title, subtitle line, typewriter description with caret, filled primary button plus outlined secondary button, particle canvas behind | `#cms-hero-title` contains text and the caret span exists |
 | 02 | `02-about-education.png` | desktop 1440x900 | `#about` + `#education` | 4:5 portrait frame on the left, heading with short rule and markdown body on the right, two education glass cards below with caps period line | `#cms-about-body` has children and `#cms-education-container` has 2 children |
 | 03 | `03-skills.png` | desktop 1440x900 | `#skills` | three skill cards in one row, icon plus group title, wrapped chip rows | `#cms-skills-container` has at least 3 children |
-| 04 | `04-works-carousel.png` | desktop 1440x900 | `#projects` | one full slide with category overline, title, tag string, summary, `View Project` button; round arrows on both edges; dots and `1 / n` counter below | `#cms-works-container` has children and `#works-counter` reads `1 / n` |
+| 04 | `04-works-carousel.png` | desktop 1440x900 | `#projects` | one full slide with category overline, title, tag string, summary, `View Project` button; round arrows on both edges; the dot row and the `1 / n` counter sit just below the carousel, which can fall outside a short viewport | `#cms-works-container` has children and `#works-counter` reads `1 / n` |
 | 05 | `05-work-modal.png` | desktop 1440x900 | modal on `index.html` | open modal with media header, category, title, tag pills, bordered metadata grid, at least one tinted block card with icon and left rail | `.modal-overlay .modal-content` is visible and contains a metadata field label |
 | 06 | `06-photography.png` | desktop 1440x900 | `#photography` | CMS heading and description, 3-column 16:9 tiles with letterboxed images and dark matte | `#cms-photography-container` has children |
 | 07 | `07-motion-gallery.png` | desktop 1440x900 | `#motion` | clothesline curve with two pins, several hanging prints at different angles, badges, captions, `01 / n` counter, arrow buttons, tick row | `#motion[data-mf-state="ready"]` and all `.mf-print` have opacity > 0.98 |
